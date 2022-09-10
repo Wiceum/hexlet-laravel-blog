@@ -16,6 +16,15 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/about');
         $response->assertStatus(200);
-        $response->assertSeeText('CEO');
+        $response->assertSeeText('Articles');
+        $response->assertSeeText('О блоге');
+    }
+
+    public function testArticles()
+    {
+        $response = $this->get('/articles');
+        $response->assertStatus(200);
+        $response->assertSeeText('About');
+        $response->assertSeeText('Статьи');
     }
 }
