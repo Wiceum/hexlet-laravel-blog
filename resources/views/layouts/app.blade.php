@@ -12,6 +12,7 @@
     <a href="/">Home</a>
     <a href="/about">About</a>
     <a href="/articles">Articles</a>
+    <a href="/rating">Rating</a>
     <h1>@yield('header')</h1>
     <div>
         @yield('content')

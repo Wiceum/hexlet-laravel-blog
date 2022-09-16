@@ -4,27 +4,19 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
+class AppTest extends TestCase
 {
-    public function testIndex()
-    {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-    }
-
-    public function testAbout()
-    {
-        $response = $this->get('/about');
-        $response->assertStatus(200);
-        $response->assertSeeText('Articles');
-        $response->assertSeeText('О блоге');
-    }
-
     public function testArticles()
     {
-        $response = $this->get('/articles');
+        $a1 = \App\Models\Article::factory()->create(['state' => 'draft']);
+        $a2 = \App\Models\Article::factory()->create();
+        $a3 = \App\Models\Article::factory()->create(['likes_count' => 5]);
+        $a4 = \App\Models\Article::factory()->create();
+        $response = $this->get('/rating');
         $response->assertStatus(200);
-        $response->assertSeeText('About');
-        $response->assertSeeText('Статьи');
+        $response->assertDontSeeText($a1->name);
+        $response->assertSeeText($a2->name);
+        $response->assertSeeText($a3->name);
+        $response->assertSeeText($a4->name);
     }
 }

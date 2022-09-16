@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\RatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,6 @@ Route::get('articles', function () {
     return view('articles', ['articles' => $articles]);
 });
 
-Route::get('about', function () {
-    return view('about');
-});
+Route::get('about', [PageController::class, 'about']);
+
+Route::get('rating', [RatingController::class, 'rate']);
