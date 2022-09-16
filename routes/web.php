@@ -18,11 +18,10 @@ Route::get('/', function () {
 });
 
 Route::get('articles', function () {
-    return view('articles');
+    $articles = \App\Models\Article::all();
+    return view('articles', ['articles' => $articles]);
 });
 
 Route::get('about', function () {
     return view('about');
 });
-
-
