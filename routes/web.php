@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,6 @@ Route::get('articles', function () {
 Route::get('about', [PageController::class, 'about']);
 
 Route::get('rating', [RatingController::class, 'rate']);
+
+Route::get('articles', [ArticleController::class, 'index'])
+    ->name('articles.index');
