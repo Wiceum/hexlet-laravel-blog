@@ -35,3 +35,6 @@ Route::get('articles', [ArticleController::class, 'index'])
 
 Route::get('article_categories', [ArticleCategoryController::class, 'index'])
     ->name('article_categories.index');
+
+Route::get('articles/{id}', [ArticleController::class, 'show'])
+    ->name('articles.show');
