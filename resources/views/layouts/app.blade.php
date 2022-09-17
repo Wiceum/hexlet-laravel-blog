@@ -13,6 +13,7 @@
     <a href="/about">About</a>
     <a href="/articles">Articles</a>
     <a href="/rating">Rating</a>
+    <a href="{{ route('article_categories.index') }}">Categories</a>
     <h1>@yield('header')</h1>
     <div>
         @yield('content')
