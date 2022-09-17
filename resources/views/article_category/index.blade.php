@@ -18,7 +18,9 @@
         @foreach($cats as $cat)
         <tr>
             <td>
-                {{ $cat->name }}
+                <a href="{{ route('article_categories.show', ['id' => $cat->id]) }}">
+                    {{ $cat->name }}
+                </a>
             </td>
             <td>
                 {{ $cat->description }}

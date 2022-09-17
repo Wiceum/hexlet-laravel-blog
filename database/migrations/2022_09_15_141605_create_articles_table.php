@@ -18,6 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('name');
             $table->string('state');
             $table->integer('likes_count')->default(0);
+            $table->bigInteger('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('article_categories');
             $table->text('body');
             $table->timestamps();
         });
