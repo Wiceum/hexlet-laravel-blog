@@ -3,33 +3,72 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\{Article, ArticleCategory};
-
+use App\Models\Article;
 
 class ArticleCategoryControllerTest extends TestCase
 {
     public function testIndex()
     {
-        $category = ArticleCategory::factory()->create();
-        $response = $this->get(route('article_categories.show', $category));
+        Article::factory()->count(10)->create();
+        $response = $this->get(route('article_categories.index'));
         $response->assertStatus(200);
     }
 
-    public function testShow()
+    public function testCreate()
     {
-        $article = Article::factory()->create();
-        $response = $this->get(route('article_categories.show', $article->category));
+        $response = $this->get(route('article_categories.create'));
         $response->assertStatus(200);
-        $response->assertSeeText($article->name);
-        $response->assertSeeText($article->category->name);
-        $response->assertSee('<ol>', false);
     }
 
-    public function testShowWithoutArticles()
+    public function testStoreWithValidationErrors()
     {
-        $category = ArticleCategory::factory()->create();
-        $response = $this->get(route('article_categories.show', $category));
-        $response->assertStatus(200);
-        $response->assertDontSee('<ol>', false);
+        $params = [
+            'description' => 'b',
+            'state' => 'draft'
+        ];
+        $response = $this->post(route('article_categories.store'), $params);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors();
+
+        $this->assertDatabaseMissing('article_categories', $params);
+
+        $params = [
+            'name' => str_repeat('name', 26),
+            'description' => str_repeat('lala', 50),
+            'state' => 'draft'
+        ];
+
+        $response = $this->post(route('article_categories.store'), $params);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors();
+
+        $this->assertDatabaseMissing('article_categories', $params);
+
+        $params = [
+            'name' => 'hop hey lala test',
+            'description' => str_repeat('lala', 50),
+            'state' => 'dratt'
+        ];
+
+        $response = $this->post(route('article_categories.store'), $params);
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors();
+
+        $this->assertDatabaseMissing('article_categories', $params);
+    }
+
+    public function testStore()
+    {
+        $params = [
+            'name' => 'jopa',
+            'description' => str_repeat('lala', 60),
+            'state' => 'draft'
+        ];
+        $response = $this->post(route('article_categories.store'), $params);
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('article_categories', [
+            'name' => 'jopa'
+        ]);
     }
 }

@@ -30,15 +30,30 @@ Route::get('about', [PageController::class, 'about']);
 
 Route::get('rating', [RatingController::class, 'rate']);
 
+
+
 Route::get('articles', [ArticleController::class, 'index'])
     ->name('articles.index');
+
+Route::get('articles/create', [ArticleController::class, 'create'])
+    ->name('articles.create');
 
 Route::get('articles/{id}', [ArticleController::class, 'show'])
     ->name('articles.show');
 
+Route::post('articles', [ArticleController::class, 'store'])
+    ->name('articles.store');
+
+
+
 Route::get('article_categories', [ArticleCategoryController::class, 'index'])
     ->name('article_categories.index');
 
-
 Route::get('article_categories.show/{id}', [ArticleCategoryController::class, 'show'])
     ->name('article_categories.show');
+
+Route::get('article_categories/create', [ArticleCategoryController::class, 'create'])
+    ->name('article_categories.create');
+
+ Route::post('article_categories', [ArticleCategoryController::class, 'store'])
+     ->name('article_categories.store');
