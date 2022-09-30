@@ -44,7 +44,36 @@ class ArticleCategoryController extends Controller
         $articleCategory->fill($data);
         $articleCategory->save();
 
+        $request->session()->flash('success', 'Category was added!');
+
         return redirect()
             ->route('article_categories.index');
+    }
+
+    public function edit($id)
+    {
+        $category = ArticleCategory::findOrFail($id);
+        return view('article_category.edit', compact('category'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $category = ArticleCategory::findOrFail($id);
+        $data = $this->validate($request, [
+            'name' => 'required|max:100',
+            'description' => 'required|min:200',
+            'state' => ['required', function ($attr, $value, $fail) {
+                if (!($value === 'draft' || $value === 'published')) {
+                    $fail('Invalid state!');
+                }
+            }]
+        ]);
+
+        $category->fill($data);
+        $category->save();
+
+        $request->session()->flash('update', 'Category was updated!');
+
+        return redirect()->route('article_categories.index');
     }
 }

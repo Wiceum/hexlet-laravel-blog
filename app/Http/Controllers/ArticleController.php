@@ -48,9 +48,7 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        // Проверка введённых данных
-        // Если будут ошибки, то возникнет исключение
-        // Иначе возвращаются данные формы
+
         $data = $this->validate($request, [
             'name' => 'required|unique:articles',
             'body' => 'required|min:10',
@@ -66,5 +64,30 @@ class ArticleController extends Controller
         // Редирект на указанный маршрут
         return redirect()
             ->route('articles.index');
+    }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view(
+            'article.edit',
+            compact('article')
+        );
+    }
+
+    public function update(Request $request, $id)
+    {
+        $article = Article::findOrFail($id);
+        $data = $this->validate($request, [
+            'name' => 'required|unique:articles,name,' . $article->id,
+            'body' => 'required|min:100',
+        ]);
+
+        $article->fill($data);
+        $article->save();
+
+        $request->session()->flash('update', 'Article was updated!');
+
+        return redirect()->route('articles.index');
     }
 }

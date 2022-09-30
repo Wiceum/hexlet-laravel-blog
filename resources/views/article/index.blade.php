@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    {{ session('update') }}
 
     {{ Form::open(['route' => 'articles.index', 'method' => 'GET']) }}
         {{ Form::text('q', $q ?? '') }}
@@ -18,6 +19,12 @@
                 {{$article->name}} </a>
         </h2>
         <div>{{Str::limit($article->body, 200)}}</div>
+        <small><a href="{{ route('articles.edit',
+                [
+                    'id' => $article->id,
+                    'categories' => \App\Models\ArticleCategory::get()
+                ]) }}">
+                Edit</a></small>
     @endforeach
     {{-- $articles->links() --}}
 
