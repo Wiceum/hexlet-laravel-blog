@@ -2,10 +2,11 @@
 
 @section('content')
     {{ session('update') }}
+    {{ session('destroy') }}
 
     {{ Form::open(['route' => 'articles.index', 'method' => 'GET']) }}
-        {{ Form::text('q', $q ?? '') }}
-        {{ Form::submit('find') }}
+    {{ Form::text('q', $q ?? '') }}
+    {{ Form::submit('find') }}
     {{ Form::close() }}
 
     <hr>
@@ -19,12 +20,27 @@
                 {{$article->name}} </a>
         </h2>
         <div>{{Str::limit($article->body, 200)}}</div>
-        <small><a href="{{ route('articles.edit',
+        <small>
+            <a href="{{ route('articles.edit',
                 [
                     'id' => $article->id,
                     'categories' => \App\Models\ArticleCategory::get()
-                ]) }}">
-                Edit</a></small>
+                ])
+                }}"
+            >
+                Edit
+            </a>
+        </small>
+        <small>
+            <a
+                href="{{ route('articles.destroy', ['id' => $article->id]) }}"
+                data-confirm="Вы уверены?"
+                data-method="delete"
+                rel="nofollow"
+            >
+                Delete
+            </a>
+        </small>
     @endforeach
     {{-- $articles->links() --}}
 
