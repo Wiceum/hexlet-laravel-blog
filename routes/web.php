@@ -78,3 +78,7 @@ Route::get('article_categories/create', [ArticleCategoryController::class, 'crea
      [ArticleCategoryController::class, 'update']
  )
     ->name('article_categories.update');
+
+ Route::delete('article_categories/{id}',
+        [ArticleCategoryController::class, 'destroy'])
+    ->name('article_categories.destroy');

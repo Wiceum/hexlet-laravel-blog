@@ -3,6 +3,9 @@
 @section('head', 'Категории статей')
 
 {{ session('update') }}
+{{ session('destroy') }}
+
+
 
 @section('content')
 
@@ -19,6 +22,16 @@
         <small>
             <a href="{{ route('article_categories.edit', ['id' => $category->id]) }}">
                 Edit
+            </a>
+        </small>
+        <small>
+            <a
+                href="{{ route('article_categories.destroy', ['id' => $category->id]) }}"
+                data-confirm="Вы уверены?"
+                data-method="delete"
+                rel="nofollow"
+            >
+                Delete
             </a>
         </small>
     @endforeach

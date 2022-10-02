@@ -76,4 +76,14 @@ class ArticleCategoryController extends Controller
 
         return redirect()->route('article_categories.index');
     }
+
+    public function destroy($id)
+    {
+        $category = ArticleCategory::find($id);
+        if ($category) {
+            $category->delete();
+            session()->flash('destroy', 'Category was deleted!');
+        }
+        return redirect()->route('article_categories.index');
+    }
 }
